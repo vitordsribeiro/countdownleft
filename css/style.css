@@ -1,0 +1,401 @@
+:root {
+  --sky-top: #180d30;
+  --sky-mid: #4a2a5e;
+  --sky-low: #a8456b;
+  --sky-horizon: #ff8a5c;
+  --sky-bottom: #ffb27c;
+  --gold: #f2c14e;
+  --cream: #fdf3e7;
+  --muted: #cdb9db;
+  --silhouette: #120a1f;
+  --silhouette-2: #1c1030;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  min-height: 100dvh;
+}
+
+body {
+  display: flex;
+  background: var(--sky-top);
+  color: var(--cream);
+  font-family: "Work Sans", "Segoe UI", sans-serif;
+  overflow-x: hidden;
+}
+
+.scene {
+  position: relative;
+  width: 100%;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1.1rem, 2.4vh, 1.9rem);
+  padding: 6vh 1.5rem 0;
+  background:
+    radial-gradient(120% 70% at 50% 8%, rgba(255, 216, 170, 0.10), transparent 60%),
+    linear-gradient(
+      to bottom,
+      var(--sky-top) 0%,
+      var(--sky-mid) 42%,
+      var(--sky-low) 70%,
+      var(--sky-horizon) 92%,
+      var(--sky-bottom) 100%
+    );
+  text-align: center;
+  isolation: isolate;
+  transition: background 1.6s ease;
+}
+
+.stars {
+  position: absolute;
+  inset: 0;
+  top: 0;
+  height: 46%;
+  background-image:
+    radial-gradient(1.5px 1.5px at 12% 20%, rgba(253, 243, 231, 0.85), transparent),
+    radial-gradient(1.5px 1.5px at 28% 44%, rgba(253, 243, 231, 0.6), transparent),
+    radial-gradient(1px 1px at 44% 12%, rgba(253, 243, 231, 0.7), transparent),
+    radial-gradient(1.5px 1.5px at 63% 30%, rgba(253, 243, 231, 0.5), transparent),
+    radial-gradient(1px 1px at 77% 16%, rgba(253, 243, 231, 0.8), transparent),
+    radial-gradient(1.5px 1.5px at 91% 38%, rgba(253, 243, 231, 0.6), transparent),
+    radial-gradient(1px 1px at 8% 55%, rgba(253, 243, 231, 0.4), transparent),
+    radial-gradient(1px 1px at 52% 6%, rgba(253, 243, 231, 0.55), transparent);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 1;
+  transition: opacity 1.6s ease;
+}
+
+.sun {
+  position: absolute;
+  z-index: 1;
+  top: 20%;
+  left: 50%;
+  width: clamp(70px, 9vw, 130px);
+  height: clamp(70px, 9vw, 130px);
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(1);
+  transition: opacity 1.6s ease, background 1.6s ease, box-shadow 1.6s ease, transform 1.6s ease, top 62s linear, left 62s linear;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sun {
+    transition: opacity 1.2s ease, background 1.2s ease, box-shadow 1.2s ease, transform 1.2s ease;
+  }
+}
+
+.eyebrow {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+  font-family: "Work Sans", sans-serif;
+  font-weight: 600;
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.eyebrow::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 8px 1px rgba(242, 193, 78, 0.7);
+}
+
+h1 {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  font-family: "Fraunces", Georgia, serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-size: clamp(1.5rem, 4vw, 2.4rem);
+  line-height: 1.15;
+  text-wrap: balance;
+  color: var(--cream);
+}
+
+h1 em {
+  font-style: italic;
+  font-weight: 600;
+  color: var(--gold);
+}
+
+.timer {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: baseline;
+  gap: clamp(0.35rem, 1.4vw, 0.9rem);
+  font-family: "IBM Plex Mono", "Consolas", monospace;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  font-size: clamp(2.8rem, 11vw, 6.5rem);
+  color: var(--gold);
+  text-shadow: 0 0 34px rgba(242, 193, 78, 0.35);
+  line-height: 1;
+}
+
+.timer .sep {
+  font-weight: 400;
+  color: rgba(253, 243, 231, 0.5);
+  font-size: 0.7em;
+  transform: translateY(-0.08em);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .timer .sep {
+    animation: blink 2s steps(1, end) infinite;
+  }
+}
+
+@keyframes blink {
+  50% { opacity: 0.25; }
+}
+
+.unit-row {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  gap: clamp(0.35rem, 1.4vw, 0.9rem);
+  font-family: "Work Sans", sans-serif;
+  font-size: clamp(0.62rem, 1.4vw, 0.78rem);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: -0.6rem;
+}
+
+.unit-row span {
+  width: 2.35ch;
+  text-align: center;
+}
+
+.unit-row .sep-space { width: 0.9ch; }
+
+.now-line {
+  position: relative;
+  z-index: 2;
+  font-size: 0.95rem;
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.now-line strong {
+  color: var(--cream);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  font-family: "IBM Plex Mono", monospace;
+}
+
+.now-line .now-temp {
+  color: var(--gold);
+}
+
+.skyline {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 900px);
+  margin-top: clamp(0.5rem, 3vh, 2rem);
+}
+
+.skyline svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.weather {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: stretch;
+  width: min(100%, 420px);
+  margin-top: 0.2rem;
+  background: rgba(253, 243, 231, 0.07);
+  border: 1px solid rgba(253, 243, 231, 0.18);
+  border-radius: 16px;
+  backdrop-filter: blur(6px);
+  overflow: hidden;
+}
+
+.weather-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 1rem 1.2rem;
+  min-width: 0;
+}
+
+.weather-divider {
+  width: 1px;
+  background: rgba(253, 243, 231, 0.18);
+  margin: 1rem 0;
+}
+
+.weather-day {
+  margin: 0;
+  font-family: "Work Sans", sans-serif;
+  font-weight: 600;
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.weather-icon svg {
+  width: 32px;
+  height: 32px;
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.weather-desc {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--cream);
+}
+
+.weather-temps {
+  margin: 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--gold);
+}
+
+.weather-temps .temp-sep {
+  color: rgba(253, 243, 231, 0.4);
+  font-weight: 400;
+  margin: 0 0.3em;
+}
+
+.weather-status {
+  width: 100%;
+  padding: 0.9rem 1.2rem;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.route {
+  position: relative;
+  z-index: 2;
+  width: min(100%, 420px);
+  margin-top: 0.2rem;
+  background: rgba(253, 243, 231, 0.07);
+  border: 1px solid rgba(253, 243, 231, 0.18);
+  border-radius: 16px;
+  backdrop-filter: blur(6px);
+  padding: 1.1rem 1.3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  text-align: left;
+}
+
+.route-eyebrow {
+  margin: 0;
+  font-family: "Work Sans", sans-serif;
+  font-weight: 600;
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.route-stop {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.82rem;
+  color: var(--cream);
+  padding: 0.15rem 0;
+}
+
+.route-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.route-dot.origin {
+  background: var(--gold);
+  box-shadow: 0 0 6px 1px rgba(242, 193, 78, 0.6);
+}
+
+.route-dot.dest {
+  background: var(--cream);
+}
+
+.route-line {
+  width: 1px;
+  height: 16px;
+  background: rgba(253, 243, 231, 0.3);
+  margin-left: 3.5px;
+}
+
+.route-figures {
+  display: flex;
+  gap: 1.6rem;
+  padding-top: 0.35rem;
+  border-top: 1px solid rgba(253, 243, 231, 0.12);
+}
+
+.route-value {
+  font-family: "IBM Plex Mono", monospace;
+  font-variant-numeric: tabular-nums;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--gold);
+  margin-right: 0.35em;
+}
+
+.route-label {
+  font-size: 0.72rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.route-note {
+  margin: 0;
+  font-size: 0.68rem;
+  color: rgba(205, 185, 219, 0.75);
+}
+
+.route-status {
+  margin: 0;
+  padding: 0.4rem 0;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+footer {
+  position: relative;
+  z-index: 2;
+  padding: 1.1rem 0 1.4rem;
+  font-size: 0.72rem;
+  color: rgba(205, 185, 219, 0.7);
+  letter-spacing: 0.02em;
+}
