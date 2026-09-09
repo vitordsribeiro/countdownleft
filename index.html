@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contagem para as 18:30</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --sky-top: #180d30;
+    --sky-mid: #4a2a5e;
+    --sky-low: #a8456b;
+    --sky-horizon: #ff8a5c;
+    --gold: #f2c14e;
+    --cream: #fdf3e7;
+    --muted: #cdb9db;
+    --silhouette: #120a1f;
+    --silhouette-2: #1c1030;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    min-height: 100dvh;
+  }
+
+  body {
+    display: flex;
+    background: var(--sky-top);
+    color: var(--cream);
+    font-family: "Work Sans", "Segoe UI", sans-serif;
+    overflow-x: hidden;
+  }
+
+  .scene {
+    position: relative;
+    width: 100%;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(1.1rem, 2.4vh, 1.9rem);
+    padding: 6vh 1.5rem 0;
+    background:
+      radial-gradient(120% 70% at 50% 8%, rgba(255, 216, 170, 0.10), transparent 60%),
+      linear-gradient(
+        to bottom,
+        var(--sky-top) 0%,
+        var(--sky-mid) 42%,
+        var(--sky-low) 70%,
+        var(--sky-horizon) 92%,
+        #ffb27c 100%
+      );
+    text-align: center;
+    isolation: isolate;
+  }
+
+  .stars {
+    position: absolute;
+    inset: 0;
+    top: 0;
+    height: 46%;
+    background-image:
+      radial-gradient(1.5px 1.5px at 12% 20%, rgba(253, 243, 231, 0.85), transparent),
+      radial-gradient(1.5px 1.5px at 28% 44%, rgba(253, 243, 231, 0.6), transparent),
+      radial-gradient(1px 1px at 44% 12%, rgba(253, 243, 231, 0.7), transparent),
+      radial-gradient(1.5px 1.5px at 63% 30%, rgba(253, 243, 231, 0.5), transparent),
+      radial-gradient(1px 1px at 77% 16%, rgba(253, 243, 231, 0.8), transparent),
+      radial-gradient(1.5px 1.5px at 91% 38%, rgba(253, 243, 231, 0.6), transparent),
+      radial-gradient(1px 1px at 8% 55%, rgba(253, 243, 231, 0.4), transparent),
+      radial-gradient(1px 1px at 52% 6%, rgba(253, 243, 231, 0.55), transparent);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .eyebrow {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55em;
+    font-family: "Work Sans", sans-serif;
+    font-weight: 600;
+    font-size: 0.78rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .eyebrow::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 8px 1px rgba(242, 193, 78, 0.7);
+  }
+
+  h1 {
+    position: relative;
+    z-index: 2;
+    margin: 0;
+    font-family: "Fraunces", Georgia, serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-size: clamp(1.5rem, 4vw, 2.4rem);
+    line-height: 1.15;
+    text-wrap: balance;
+    color: var(--cream);
+  }
+
+  h1 em {
+    font-style: italic;
+    font-weight: 600;
+    color: var(--gold);
+  }
+
+  .timer {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: baseline;
+    gap: clamp(0.35rem, 1.4vw, 0.9rem);
+    font-family: "IBM Plex Mono", "Consolas", monospace;
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    font-size: clamp(2.8rem, 11vw, 6.5rem);
+    color: var(--gold);
+    text-shadow: 0 0 34px rgba(242, 193, 78, 0.35);
+    line-height: 1;
+  }
+
+  .timer .sep {
+    font-weight: 400;
+    color: rgba(253, 243, 231, 0.5);
+    font-size: 0.7em;
+    transform: translateY(-0.08em);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .timer .sep {
+      animation: blink 2s steps(1, end) infinite;
+    }
+  }
+
+  @keyframes blink {
+    50% { opacity: 0.25; }
+  }
+
+  .unit-row {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    gap: clamp(0.35rem, 1.4vw, 0.9rem);
+    font-family: "Work Sans", sans-serif;
+    font-size: clamp(0.62rem, 1.4vw, 0.78rem);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: -0.6rem;
+  }
+
+  .unit-row span {
+    width: 2.35ch;
+    text-align: center;
+  }
+
+  .unit-row .sep-space { width: 0.9ch; }
+
+  .now-line {
+    position: relative;
+    z-index: 2;
+    font-size: 0.95rem;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  .now-line strong {
+    color: var(--cream);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    font-family: "IBM Plex Mono", monospace;
+  }
+
+  .skyline {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 900px);
+    margin-top: clamp(0.5rem, 3vh, 2rem);
+  }
+
+  .skyline svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  footer {
+    position: relative;
+    z-index: 2;
+    padding: 1.1rem 0 1.4rem;
+    font-size: 0.72rem;
+    color: rgba(205, 185, 219, 0.7);
+    letter-spacing: 0.02em;
+  }
+</style>
+</head>
+<body>
+
+<div class="scene">
+  <div class="stars"></div>
+
+  <p class="eyebrow">Rio de Janeiro</p>
+  <h1>Contagem regressiva até as <em>18:30</em></h1>
+
+  <div class="timer" id="timer" aria-live="polite">
+    <span id="hh">00</span><span class="sep">:</span><span id="mm">00</span><span class="sep">:</span><span id="ss">00</span>
+  </div>
+  <div class="unit-row">
+    <span>horas</span><span class="sep-space"></span><span>min</span><span class="sep-space"></span><span>seg</span>
+  </div>
+
+  <p class="now-line">Agora no Rio: <strong id="now-clock">--:--:--</strong></p>
+
+  <div class="skyline" aria-hidden="true">
+    <svg viewBox="0 0 900 220" preserveAspectRatio="none">
+      <path d="M0,220 L0,150 L60,150 L90,120 L120,150 L170,150 L170,220 Z" fill="#1c1030" opacity="0.55"></path>
+      <path d="M180,220 C220,190 250,150 300,150 C340,150 350,175 390,175 C420,175 430,150 470,150 C500,150 505,190 540,220 Z" fill="#160b28" opacity="0.85"></path>
+      <path d="M556,220 L556,60 L560,50 L564,60 L564,90 L580,90 L580,100 L564,100 L564,150 L610,220 Z" fill="#120a1f"></path>
+      <rect x="558" y="30" width="12" height="4" fill="#120a1f"></rect>
+      <path d="M600,220 C650,205 680,160 730,160 C770,160 790,190 830,195 C860,199 880,210 900,220 Z" fill="#150a26" opacity="0.9"></path>
+      <path d="M0,220 L900,220 L900,235 L0,235 Z" fill="#0f081b"></path>
+    </svg>
+  </div>
+
+  <footer>Horário de Brasília &mdash; America/Sao_Paulo (UTC&minus;3)</footer>
+</div>
+
+<script>
+  const TARGET_HOUR = 18;
+  const TARGET_MINUTE = 30;
+  const RIO_TZ = "America/Sao_Paulo";
+  const RIO_OFFSET = "-03:00";
+
+  const hhEl = document.getElementById("hh");
+  const mmEl = document.getElementById("mm");
+  const ssEl = document.getElementById("ss");
+  const nowClockEl = document.getElementById("now-clock");
+
+  const dateFmt = new Intl.DateTimeFormat("en-CA", {
+    timeZone: RIO_TZ,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit"
+  });
+
+  const clockFmt = new Intl.DateTimeFormat("pt-BR", {
+    timeZone: RIO_TZ,
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false
+  });
+
+  function pad(n) {
+    return String(n).padStart(2, "0");
+  }
+
+  function getTargetDate(now) {
+    const ymd = dateFmt.format(now);
+    let target = new Date(`${ymd}T${pad(TARGET_HOUR)}:${pad(TARGET_MINUTE)}:00${RIO_OFFSET}`);
+    if (target.getTime() <= now.getTime()) {
+      target = new Date(target.getTime() + 24 * 60 * 60 * 1000);
+    }
+    return target;
+  }
+
+  function tick() {
+    const now = new Date();
+    const target = getTargetDate(now);
+    const diff = Math.max(0, target.getTime() - now.getTime());
+
+    const totalSeconds = Math.floor(diff / 1000);
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    hhEl.textContent = pad(hours);
+    mmEl.textContent = pad(minutes);
+    ssEl.textContent = pad(seconds);
+
+    nowClockEl.textContent = clockFmt.format(now);
+  }
+
+  tick();
+  setInterval(tick, 1000);
+</script>
+
+</body>
+</html>
