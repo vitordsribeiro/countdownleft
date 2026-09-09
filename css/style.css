@@ -52,10 +52,10 @@ body {
 }
 
 .stars {
-  position: absolute;
+  position: fixed;
   inset: 0;
   top: 0;
-  height: 46%;
+  height: 46vh;
   background-image:
     radial-gradient(1.5px 1.5px at 12% 20%, rgba(253, 243, 231, 0.85), transparent),
     radial-gradient(1.5px 1.5px at 28% 44%, rgba(253, 243, 231, 0.6), transparent),
@@ -72,7 +72,7 @@ body {
 }
 
 .sun {
-  position: absolute;
+  position: fixed;
   z-index: 1;
   top: 20%;
   left: 50%;
@@ -169,7 +169,8 @@ h1 em {
   position: relative;
   z-index: 2;
   display: flex;
-  gap: clamp(0.35rem, 1.4vw, 0.9rem);
+  justify-content: center;
+  gap: clamp(1.3rem, 6vw, 2.2rem);
   font-family: "Work Sans", sans-serif;
   font-size: clamp(0.62rem, 1.4vw, 0.78rem);
   letter-spacing: 0.18em;
@@ -177,13 +178,6 @@ h1 em {
   color: var(--muted);
   margin-top: -0.6rem;
 }
-
-.unit-row span {
-  width: 2.35ch;
-  text-align: center;
-}
-
-.unit-row .sep-space { width: 0.9ch; }
 
 .now-line {
   position: relative;
