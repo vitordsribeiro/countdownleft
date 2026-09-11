@@ -409,3 +409,50 @@ footer {
   color: rgba(205, 185, 219, 0.7);
   letter-spacing: 0.02em;
 }
+
+.snap-btn {
+  display: none;
+  position: fixed;
+  z-index: 5;
+  right: 1rem;
+  bottom: max(1.1rem, env(safe-area-inset-bottom));
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.05rem;
+  border: 1px solid rgba(253, 243, 231, 0.25);
+  border-radius: 999px;
+  background: rgba(24, 13, 48, 0.55);
+  backdrop-filter: blur(8px);
+  color: var(--cream);
+  font-family: "Work Sans", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease, opacity 0.2s ease;
+}
+
+.snap-btn svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.snap-btn:active {
+  transform: scale(0.96);
+  background: rgba(253, 243, 231, 0.18);
+}
+
+.snap-btn.is-busy {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+body.is-mobile-device .snap-btn {
+  display: inline-flex;
+}
