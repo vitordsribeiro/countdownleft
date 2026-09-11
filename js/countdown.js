@@ -1,12 +1,15 @@
-const TARGET_HOUR = 18;
-const TARGET_MINUTE = 30;
+const DEFAULT_TARGET = { hour: 18, minute: 30 };
+const FRIDAY_TARGET = { hour: 17, minute: 30 };
 const RIO_TZ = "America/Sao_Paulo";
 const RIO_OFFSET = "-03:00";
 
+const sceneEl = document.getElementById("scene");
 const hhEl = document.getElementById("hh");
 const mmEl = document.getElementById("mm");
 const ssEl = document.getElementById("ss");
 const nowClockEl = document.getElementById("now-clock");
+const targetLabelEl = document.getElementById("target-label");
+const headlineTextEl = document.getElementById("headline-text");
 
 const dateFmt = new Intl.DateTimeFormat("en-CA", {
   timeZone: RIO_TZ,
@@ -27,21 +30,21 @@ function pad(n) {
   return String(n).padStart(2, "0");
 }
 
-function getTargetDate(now) {
-  const ymd = dateFmt.format(now);
-  let target = new Date(`${ymd}T${pad(TARGET_HOUR)}:${pad(TARGET_MINUTE)}:00${RIO_OFFSET}`);
-  if (target.getTime() <= now.getTime()) {
-    target = new Date(target.getTime() + 24 * 60 * 60 * 1000);
-  }
-  return target;
+function targetForYmd(ymd) {
+  const weekday = new Date(`${ymd}T12:00:00Z`).getUTCDay();
+  return weekday === 5 ? FRIDAY_TARGET : DEFAULT_TARGET;
 }
 
 function tick() {
   const now = new Date();
-  const target = getTargetDate(now);
-  const diff = Math.max(0, target.getTime() - now.getTime());
+  const ymd = dateFmt.format(now);
+  const { hour, minute } = targetForYmd(ymd);
+  const target = new Date(`${ymd}T${pad(hour)}:${pad(minute)}:00${RIO_OFFSET}`);
 
-  const totalSeconds = Math.floor(diff / 1000);
+  const isOvertime = now.getTime() >= target.getTime();
+  const diffMs = isOvertime ? now.getTime() - target.getTime() : target.getTime() - now.getTime();
+
+  const totalSeconds = Math.floor(diffMs / 1000);
   const hours = Math.floor(totalSeconds / 3600);
   const minutes = Math.floor((totalSeconds % 3600) / 60);
   const seconds = totalSeconds % 60;
@@ -51,6 +54,9 @@ function tick() {
   ssEl.textContent = pad(seconds);
 
   nowClockEl.textContent = clockFmt.format(now);
+  targetLabelEl.textContent = `${pad(hour)}:${pad(minute)}`;
+  headlineTextEl.textContent = isOvertime ? "Hora extra desde as" : "Contagem regressiva até as";
+  sceneEl.classList.toggle("is-overtime", isOvertime);
 }
 
 tick();

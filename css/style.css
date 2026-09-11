@@ -5,6 +5,7 @@
   --sky-horizon: #ff8a5c;
   --sky-bottom: #ffb27c;
   --gold: #f2c14e;
+  --overtime: #ff8f65;
   --cream: #fdf3e7;
   --muted: #cdb9db;
   --silhouette: #120a1f;
@@ -146,6 +147,21 @@ h1 em {
   color: var(--gold);
   text-shadow: 0 0 34px rgba(242, 193, 78, 0.35);
   line-height: 1;
+  transition: color 0.6s ease, text-shadow 0.6s ease;
+}
+
+.scene.is-overtime .timer {
+  color: var(--overtime);
+  text-shadow: 0 0 34px rgba(255, 143, 101, 0.4);
+}
+
+.scene.is-overtime h1 em {
+  color: var(--overtime);
+}
+
+.scene.is-overtime .eyebrow::before {
+  background: var(--overtime);
+  box-shadow: 0 0 8px 1px rgba(255, 143, 101, 0.7);
 }
 
 .timer .sep {
